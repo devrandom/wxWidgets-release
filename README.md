@@ -11,7 +11,7 @@ The layout of this directory is:
 
 This directory is created by the Gitian `gsign` command, after a successful `gbuild`.  It can be verified with `gverify`.
 
-The source is wxWidgets-2.9.1 obtained from the wxWidgets site.
+The source is wxWidgets-2.9.1 as obtained from the wxWidgets site.  A patch is provided in inputs/ and should be copied to the gitian inputs/ directory before building.
 
 Normally, all output manifests in the result files should be identical between different signers.
 
