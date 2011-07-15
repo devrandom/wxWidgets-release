@@ -23,9 +23,9 @@ script: |
   make $MAKEOPTS install
   cd $OUTDIR
   cp -af $INSTDIR/include .
-  cp -af $INSTDIR/lib/wx .
   mkdir -p $OUTDIR/bin/$GBUILD_BITS
   cd $OUTDIR/bin/$GBUILD_BITS
+  cp -af $INSTDIR/lib/wx .
   for lib in wxtiff wxregexu wx_gtk2u; do
       mkdir $lib
       (cd $lib ; ar xf $INSTDIR/lib/lib${lib}-2.9.a)
