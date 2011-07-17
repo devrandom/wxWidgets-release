@@ -1,0 +1,35 @@
+---
+name: "wxwidgets"
+suites:
+- "lucid"
+architectures:
+- "i386"
+packages: 
+- "mingw32"
+reference_datetime: "2011-01-30 00:00:00"
+remotes: []
+files:
+- "wxWidgets-2.9.1.tar.bz2"
+- "toplevel.h.diff"
+- "toplevel.cpp.diff"
+script: |
+  INSTDIR="$HOME/install"
+  export LIBRARY_PATH="$INSTDIR/lib"
+  #
+  tar xjf wxWidgets-2.9.1.tar.bz2
+  cd wxWidgets-2.9.1
+  (cd include/wx/gtk && patch < ../../../../toplevel.h.diff)
+  (cd src/gtk && patch < ../../../toplevel.cpp.diff)
+  CXXFLAGS=-frandom-seed=wx1 ./configure --host=i586-mingw32msvc --build=i686-linux --prefix=$INSTDIR --disable-shared --enable-monolithic --without-libpng --disable-svg
+  perl -i -p -e "s/__TIME__/\"$REFERENCE_TIME\"/;s/__DATE__/\"$REFERENCE_DATE\"/" include/wx/chartype.h
+  make $MAKEOPTS install
+  cd $OUTDIR
+  cp -af $INSTDIR/include .
+  mkdir -p $OUTDIR/bin/$GBUILD_BITS
+  cd $OUTDIR/bin/$GBUILD_BITS
+  cp -af $INSTDIR/lib/wx .
+  for lib in wx_mswu; do
+      mkdir $lib
+      (cd $lib ; ar xf $INSTDIR/lib/lib${lib}-2.9-i586-mingw32msvc.a)
+  done
+  chmod -R +w $OUTDIR
